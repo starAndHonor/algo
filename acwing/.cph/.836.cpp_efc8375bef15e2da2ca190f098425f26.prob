@@ -1,0 +1,1 @@
+{"name":"Local: 836","url":"f:\\code\\code\\acwing\\836.cpp","tests":[{"id":1644450055616,"input":"5 5\nC 1 2\nQ1 1 2\nQ2 1\nC 2 5\nQ2 5","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\code\\code\\acwing\\836.cpp","group":"local","local":true}

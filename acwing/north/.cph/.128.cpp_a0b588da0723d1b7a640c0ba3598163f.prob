@@ -1,0 +1,1 @@
+{"name":"Local: 128","url":"f:\\code\\code\\acwing\\north\\128.cpp","tests":[{"id":1646141161714,"input":"8\nI 2\nI -1\nI 1\nQ 3\nL\nD\nR\nQ 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\code\\code\\acwing\\north\\128.cpp","group":"local","local":true}

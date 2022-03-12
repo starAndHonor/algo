@@ -1,0 +1,1 @@
+{"name":"Local: 10013","url":"f:\\code\\code\\loj\\10013.cpp","tests":[{"id":1645938000121,"input":"2\n1\n2 0 0\n2\n2 0 0\n2 -4 2","output":"0.0000\n0.5000"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\code\\code\\loj\\10013.cpp","group":"local","local":true}

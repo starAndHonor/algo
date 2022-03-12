@@ -1,0 +1,1 @@
+{"name":"Local: b","url":"f:\\code\\code\\cf\\contest\\1631\\b\\b.cpp","tests":[{"id":1643296679769,"input":"5\n3\n1 1 1\n2\n2 1\n5\n1 3 4 2 4\n4\n4 2 1 3\n1\n1","output":"0\n1\n2\n2\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\code\\code\\cf\\contest\\1631\\b\\b.cpp","group":"local","local":true}
