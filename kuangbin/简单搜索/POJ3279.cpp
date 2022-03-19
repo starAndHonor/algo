@@ -20,7 +20,7 @@ using ull = unsigned long long;
 
 const double eps = 1e-6;
 const int INF = 0x3f3f3f3f;  // 0x3f3f3f3f3f3f3f3f; // LLINF
-const int MAXN = (int)1e5 + 3;
+const int MAXN = (int)1e2 + 3;
 
 inline char nc() { return getchar(); }
 inline int read() {
@@ -41,13 +41,13 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m;
+int n, m, t;
 int gr[MAXN];
-void dfs(int line)
+void dfs(int line) {}
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
   cin >> n >> m;
   for (int i = 1; i <= n; i++)
-    for (int j = 1; j <= m; j++) cin >> gr[i][j];
+    for (int j = 0; j <= m; j++) cin >> t, t ? gr[i] += 1 << t : t;
 }
 
 signed main() {
