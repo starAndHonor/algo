@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <iostream>
-#include <queue>
+#include <bits/stdc++.h>
 // #include<bits/extc++.h>
 // #define int long long//__int128
 #define mmst0(x) memset(x, 0, sizeof(x))
@@ -19,10 +14,13 @@
 #define ford(a, b, c, d) for (int a = (b); a >= (c); a -= (d))
 using namespace std;
 // using namespace __gnu_pbds; // If using pbds don't using std!
+using ll = long long;
+// typedef long double rld; // use double pls!
+using ull = unsigned long long;
 
 const double eps = 1e-6;
 const int INF = 0x3f3f3f3f;  // 0x3f3f3f3f3f3f3f3f; // LLINF
-const int MAXN = (int)1e2 + 3;
+const int MAXN = (int)1e6 + 3;
 
 inline char nc() { return getchar(); }
 inline int read() {
@@ -43,41 +41,24 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m, t;
-int gr[MAXN][MAXN], g[MAXN][MAXN], ans[MAXN][MAXN];
-inline void eva(int x, int y) {
-  ans[x][y] = 1;
-  g[x + 1][y] ^= 1;
-  g[x - 1][y] ^= 1;
-  g[x][y + 1] ^= 1;
-  g[x][y - 1] ^= 1;
-  g[x][y] ^= 1;
+int n, m;
+int f[MAXN][21];
+inline void build() {
+  for (int i = 1; i <= 21; i++)
+    for (int j = 1; j + (1 << i) - 1 <= n; j++)
+      f[j][i] = min(f[j][i - 1], f[j + (1 << (i - 1))][i - 1]);
+}
+inline int query(int l, int r) {
+  int s = __lg(r - l + 1);
+  return min(f[l][s], f[r - (1 << s) + 1][s]);
 }
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
   cin >> n >> m;
-  for (int i = 1; i <= n; i++)
-    for (int j = 1; j <= m; j++) cin >> gr[i][j];
-  int maxx = 1 << m;
-  for (int i = 0; i < maxx; i++) {
-    for (int j = 1; j <= n; j++)
-      for (int k = 1; k <= m; k++) g[j][k] = gr[j][k], ans[j][k] = 0;
-    for (int j = 1, st = i; j <= m; j++, st >>= 1)
-      if (st & 1) eva(1, j);
-    for (int j = 2; j <= n; j++)
-      for (int k = 1; k <= m; k++)
-        if (g[j - 1][k]) eva(j, k);
-    bool f = true;
-    for (int j = 1; j <= m; j++)
-      if (g[n][j]) f = false;
-    if (f) {
-      for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= m; j++) cout << ans[i][j] << " ";
-        puts("");
-      }
-      return;
-    }
+  for (int i = 1; i <= n; i++) cin >> f[i][0];
+  build();
+  for (int l = 1; l + m - 1 <= n; l++) {
+    cout << query(l, l + m - 1) << endl;
   }
-  cout << "IMPOSSIBLE";
 }
 
 signed main() {
