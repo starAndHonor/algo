@@ -1,4 +1,9 @@
-#include <bits/stdc++.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <iostream>
+#include <queue>
 // #include<bits/extc++.h>
 // #define int long long//__int128
 #define mmst0(x) memset(x, 0, sizeof(x))
@@ -41,27 +46,24 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m;
-int a[MAXN], b[MAXN];
-map<int, int> tem;
+int n;
+bool vis = false;
+void dfs(int d, int n, unsigned __int64 num) {
+  if (vis) return;
+  if (num % n == 0) {
+    cout << num << endl;
+    vis = true;
+    return;
+  }
+  if (d == 19) return;
+  dfs(d + 1, n, num * 10);
+  dfs(d + 1, n, num * 10 + 1);
+}
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  cin >> n >> m;
-  for (int i = 1; i <= n; i++) {
-    cin >> a[i];
-    tem[a[i]]++;
+  while (cin >> n, n) {
+    vis = false;
+    dfs(0, n, 1);
   }
-  for (int i = 1; i <= m; i++) {
-    cin >> b[i];
-  }
-  for (int i = 1; i <= m; i++) {
-    if (tem[b[i]] != 0) {
-      tem[b[i]]--;
-    } else {
-      NOO;
-      return;
-    }
-  }
-  YESS;
 }
 
 signed main() {

@@ -41,26 +41,53 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int a[MAXN];
-int now = 0;
+int e[MAXN], ne[MAXN], h[MAXN], idx, in[MAXN];
+inline void add(int u, int v) {
+  e[idx] = v, ne[idx] = h[u], h[u] = idx++, in[v]++;
+}
+vector<int> ans;
+int n, m;
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  int n, k;
-  cin >> n >> k;
+  cin >> n >> m;
+  memset(h, -1, sizeof(h));
+  idx = 0;
+  ans.clear();
+  memset(in, 0, sizeof(in));
+  int x, y;
+  while (m--) {
+    cin >> x >> y;
+    add(y, x);
+  }
+  priority_queue<int> q;
   for (int i = 1; i <= n; i++) {
-    cin >> a[i];
+    if (!in[i]) q.push(i);
   }
-  int cnt = 0;
-  for (int i = 1; i <= 50; i++) {
-    cout << (++cnt) << " " << now % n << endl;
-    now += a[now % n + 1];
+  while (!q.empty()) {
+    auto now = q.top();
+    q.pop();
+    ans.push_back(now);
+    for (int i = h[now]; ~i; i = ne[i]) {
+      if (!(--in[e[i]])) q.push(e[i]);
+    }
   }
-  cout << now;
+
+  if (ans.size() < n) {
+    cout << "Impossible!";
+
+  } else {
+    reverse(ans.begin(), ans.end());
+    for (auto i : ans) cout << i << " ";
+  }
+  puts("");
 }
 
 signed main() {
-  // ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+  //   ios::sync_with_stdio(false);
+  //   cin.tie(nullptr);
+  //   cout.tie(nullptr);
   // //freopen(".in", "r", stdin);//freopen(".out", "w", stdout);
-  signed T = 1;  //(signed)read();//scanf("%d",&T);//cin>>T;
+  signed T = 1;                               //(signed)read();
+  scanf("%d", &T);                            // cin>>T;
   for (signed CASE = 1; CASE <= T; CASE++) {  //
     // printf("Case #%d: ",CASE); //printf("Case %d: ",CASE); //printf("Case
     // #%d: \n",CASE); //printf("Case %d: \n",CASE); while(cin>>n) work(n);
