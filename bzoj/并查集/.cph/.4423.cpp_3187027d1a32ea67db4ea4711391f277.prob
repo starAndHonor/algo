@@ -1,0 +1,1 @@
+{"name":"Local: 4423","url":"f:\\code\\code\\bzoj\\并查集\\4423.cpp","tests":[{"id":1648471597335,"input":"3 4\n2 1 E 1 2 N\n2 1 N 1 1 N\n3 1 N 2 1 N\n2 2 N 1 1 N","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\code\\code\\bzoj\\并查集\\4423.cpp","group":"local","local":true}
