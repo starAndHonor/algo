@@ -20,7 +20,7 @@ using ull = unsigned long long;
 
 const double eps = 1e-6;
 const int INF = 0x3f3f3f3f;  // 0x3f3f3f3f3f3f3f3f; // LLINF
-const int MAXN = (int)2e5 + 500;
+const int MAXN = (int)1e5 + 3;
 
 inline char nc() { return getchar(); }
 inline int read() {
@@ -41,48 +41,35 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m, a[MAXN], b[MAXN], c[MAXN], d[MAXN * 3], ans[MAXN * 3];
-inline int query(int x, int len) {
-  return lower_bound(d + 1, d + 1 + len, x) - d;
-}
+int n, a[MAXN];
+map<int, int> mp;
+bool vis[MAXN];
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
   cin >> n;
-  int all = 0;
+  mmst0(vis);
+  mp.clear();
+  mmst0(a);
   for (int i = 1; i <= n; i++) {
-    cin >> a[i];
-    d[++all] = a[i];
+    cin >> a[i], mp[a[i]]++;
   }
-  cin >> m;
-  for (int i = 1; i <= m; i++) {
-    cin >> b[i];
-    d[++all] = b[i];
+  for (auto& [x, y] : mp) {
+    if (y) cout << x << " ";
+    y--;
   }
-  for (int i = 1; i <= m; i++) {
-    cin >> c[i];
-    d[++all] = c[i];
-  }
-  sort(d + 1, d + 1 + all);
-  int len = unique(d + 1, d + 1 + m + m + n) - d - 1;
-  int a1, a2, a0;
-  for (int i = 1; i <= n; i++) ans[query(a[i], len)]++;
-  a1 = a2 = a0 = 0;
-  for (int i = 1; i <= m; i++) {
-    int x = ans[query(b[i], len)], y = ans[query(c[i], len)];
-    if (x > a1 || (x == a1 && y > a2)) {
-      a0 = i, a1 = x, a2 = y;
+  for (auto& [x, y] : mp) {
+    while (y) {
+      cout << x << " ";
+      y--;
     }
   }
-  if (a0 == 0) {
-    printf("%d\n", 1);
-  } else {
-    printf("%d\n", a0);
-  }
+  puts("");
 }
 
 signed main() {
   // ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
   // //freopen(".in", "r", stdin);//freopen(".out", "w", stdout);
-  signed T = 1;  //(signed)read();//scanf("%d",&T);//cin>>T;
+  signed T = 1;  //(signed)read();//scanf("%d",&T);
+  cin >> T;
   for (signed CASE = 1; CASE <= T; CASE++) {  //
     // printf("Case #%d: ",CASE); //printf("Case %d: ",CASE); //printf("Case
     // #%d: \n",CASE); //printf("Case %d: \n",CASE); while(cin>>n) work(n);

@@ -20,7 +20,7 @@ using ull = unsigned long long;
 
 const double eps = 1e-6;
 const int INF = 0x3f3f3f3f;  // 0x3f3f3f3f3f3f3f3f; // LLINF
-const int MAXN = (int)2e5 + 500;
+const int MAXN = (int)1e5 + 3;
 
 inline char nc() { return getchar(); }
 inline int read() {
@@ -41,42 +41,21 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m, a[MAXN], b[MAXN], c[MAXN], d[MAXN * 3], ans[MAXN * 3];
-inline int query(int x, int len) {
-  return lower_bound(d + 1, d + 1 + len, x) - d;
+int n, T, a[MAXN];
+pair<int, int> turn = {1, 0};
+inline get(pair<int, int> w, int b) {
+  b %= 4;
+  if (b == 1) turn.fi =
 }
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  cin >> n;
-  int all = 0;
+  cin >> n >> T;
+  T %= 4;
   for (int i = 1; i <= n; i++) {
     cin >> a[i];
-    d[++all] = a[i];
   }
-  cin >> m;
-  for (int i = 1; i <= m; i++) {
-    cin >> b[i];
-    d[++all] = b[i];
-  }
-  for (int i = 1; i <= m; i++) {
-    cin >> c[i];
-    d[++all] = c[i];
-  }
-  sort(d + 1, d + 1 + all);
-  int len = unique(d + 1, d + 1 + m + m + n) - d - 1;
-  int a1, a2, a0;
-  for (int i = 1; i <= n; i++) ans[query(a[i], len)]++;
-  a1 = a2 = a0 = 0;
-  for (int i = 1; i <= m; i++) {
-    int x = ans[query(b[i], len)], y = ans[query(c[i], len)];
-    if (x > a1 || (x == a1 && y > a2)) {
-      a0 = i, a1 = x, a2 = y;
+  for (int i = 1; i <= T; i++)
+    for (int j = 1; j <= n; j++) {
     }
-  }
-  if (a0 == 0) {
-    printf("%d\n", 1);
-  } else {
-    printf("%d\n", a0);
-  }
 }
 
 signed main() {

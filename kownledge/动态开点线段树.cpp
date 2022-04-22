@@ -39,74 +39,44 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-#define ls(x) tr[x].ls
-#define rs(x) tr[x].rs
-#define val(x) tr[x].val
-#define mark(x) tr[x].mark
-int L = 1, R = 1e5, cnt = 1;
-int n, m;
-int a[MAXN];
+int n, m, cnt;
 struct node {
-  int val, mark;
   int ls, rs;
-} tr[MAXN << 2];
-void pushdown(int p, int len) {
-  if (len <= 1) return;
-  if (!ls(p)) ls(p) = ++cnt;
-  if (!rs(p)) rs(p) = ++cnt;
-  val(ls(p)) += mark(p) * (len / 2);
-  mark(ls(p)) += mark(p);
-  val(rs(p)) += mark(p) * (len - len / 2);
-  mark(rs(p)) += mark(p);
-  mark(p) = 0;
+  ll sum;
+  int tag;
+} tr[MAXN];
+inline void pushup(int p) { tr[p].sum = tr[p].ls + tr[p].rs; }
+inline void down(int &p, int cl, int cr, int add) {
+  if (!p) {
+    p = ++cnt;
+  }
+  tr[p].sum += (cr - cl + 1) * add;
+  tr[p].tag += add;
 }
-void pushup(int p) { val(p) = val(ls(p)) + val(rs(p)); }
-int query(int l, int r, int p = 1, int cl = L, int cr = R) {
-  if (cl >= l && cr <= r) return val(p);
-  pushdown(p, cr - cl + 1);
-  int cmid = (cl + cr - 1) / 2, ans = 0;
-  if (cmid >= l) ans += query(l, r, ls(p), cl, cmid);
-  if (cmid < r) ans += query(l, r, rs(p), cmid + 1, cr);
-  return ans;
+inline void pushdown(int p, int cl, int cr) {
+  if (tr[p].tag) {
+    int cmid = cl + cr >> 1;
+    down(tr[p].ls, cl, cmid, tr[p].tag);
+    down(tr[p].rs, cmid + 1, cr, tr[p].tag);
+    tr[p].tag = 0;
+  }
 }
-void update(int l, int r, int d, int p = 1, int cl = L, int cr = R) {
-  if (cl >= l && cr <= r)
-    return val(p) += d * (cr - cl + 1), mark(p) += d, void();
-  pushdown(p, cr - cl + 1);
-  int cmid = (cl + cr - 1) / 2;
-  if (cmid >= l) update(l, r, d, ls(p), cl, cmid);
-  if (cmid < r) update(l, r, d, rs(p), cmid + 1, cr);
+inline void update(int l, int r, int d, int &p, int cl = 1, int cr = n) {
+  if (!p) {
+    p = ++cnt;
+  }
+  if (l <= cl && r >= cr) {
+    tr[p].sum += (cr - cl + 1) * add;
+    tr[p].tag += add;
+    return;
+  }
+  pushdown(p, cl, cr);
+  int cmid = cl + cr >> 1;
+  if (l <= cmid) update(l, r, d, tr[p].ls, cl, cmid);
+  if (r > cmid) update(l, r, d, tr[p].ls, cmid + 1, cr);
   pushup(p);
 }
-inline void build(int p = 1, int cl = L, int cr = R) {
-  ls(p) = cl, rs(p) = cr;
-  if (cl == cr) return void(val(p) = a[cl]);
-  int cmid = (cl + cr) / 2;
-  if (cmid >= cl) {
-    ls(p) = ++cnt;
-    build(ls(p), cl, cmid);
-  }
-  if (cmid < cr) {
-    rs(p) = ++cnt;
-    build(rs(p), cmid + 1, cr);
-  }
-  pushup(p);
-}
-
-inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  cin >> n >> m;
-  for (int i = 1; i <= n; ++i) cin >> a[i];
-  build();
-  while (m--) {
-    int o, l, r, d;
-    cin >> o >> l >> r;
-    if (o == 1)
-      cin >> d, update(l, r, d);
-    else
-      cout << query(l, r) << '\n';
-  }
-  return;
-}
+inline void work(signed CASE = 1, bool FINAL_CASE = false) {}
 
 signed main() {
   // ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);

@@ -20,7 +20,7 @@ using ull = unsigned long long;
 
 const double eps = 1e-6;
 const int INF = 0x3f3f3f3f;  // 0x3f3f3f3f3f3f3f3f; // LLINF
-const int MAXN = (int)2e5 + 500;
+const int MAXN = (int)1e5 + 3;
 
 inline char nc() { return getchar(); }
 inline int read() {
@@ -41,43 +41,37 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m, a[MAXN], b[MAXN], c[MAXN], d[MAXN * 3], ans[MAXN * 3];
-inline int query(int x, int len) {
-  return lower_bound(d + 1, d + 1 + len, x) - d;
-}
-inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  cin >> n;
-  int all = 0;
-  for (int i = 1; i <= n; i++) {
-    cin >> a[i];
-    d[++all] = a[i];
+int n, m;
+double a[MAXN];
+struct segtr {
+  struct node {
+    double val = 0;
+    double sval = 0;
+    double tag = 0;
+    double stag = 0;
+  };
+  node tr[MAXN];
+  inline void pushup(int p) {
+    tr[p].val = tr[p << 1].val + tr[p << 1 | 1].val;
+    tr[p].sval = tr[p << 1].sval + tr[p << 1 | 1].sval;
   }
-  cin >> m;
-  for (int i = 1; i <= m; i++) {
-    cin >> b[i];
-    d[++all] = b[i];
+  inline void pushdown(int p, int cl, int cr) {
+    tr[p << 1].tag += tr[p].tag, tr[p << 1 | 1].tag += tr[p].tag;
+    tr[p << 1].stag += tr[p].stag, tr[p << 1 | 1].stag += tr[p].stag;
   }
-  for (int i = 1; i <= m; i++) {
-    cin >> c[i];
-    d[++all] = c[i];
-  }
-  sort(d + 1, d + 1 + all);
-  int len = unique(d + 1, d + 1 + m + m + n) - d - 1;
-  int a1, a2, a0;
-  for (int i = 1; i <= n; i++) ans[query(a[i], len)]++;
-  a1 = a2 = a0 = 0;
-  for (int i = 1; i <= m; i++) {
-    int x = ans[query(b[i], len)], y = ans[query(c[i], len)];
-    if (x > a1 || (x == a1 && y > a2)) {
-      a0 = i, a1 = x, a2 = y;
+  inline void build(int p = 1, int cl = 1, int cr = n) {
+    if (cl == cr) {
+      tr[p].val = a[cl];
+      tr[p].sval = a[cl] * a[cl];
+      return;
     }
+    int cmid = cl + cr >> 1;
+    build(p << 1, cl, cmid);
+    build(p << 1 | 1, cmid + 1, cr);
+    pushup(p);
   }
-  if (a0 == 0) {
-    printf("%d\n", 1);
-  } else {
-    printf("%d\n", a0);
-  }
-}
+};
+inline void work(signed CASE = 1, bool FINAL_CASE = false) {}
 
 signed main() {
   // ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);

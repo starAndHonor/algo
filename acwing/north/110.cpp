@@ -20,7 +20,7 @@ using ull = unsigned long long;
 
 const double eps = 1e-6;
 const int INF = 0x3f3f3f3f;  // 0x3f3f3f3f3f3f3f3f; // LLINF
-const int MAXN = (int)2e5 + 500;
+const int MAXN = (int)1e5 + 3;
 
 inline char nc() { return getchar(); }
 inline int read() {
@@ -41,42 +41,32 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-int n, m, a[MAXN], b[MAXN], c[MAXN], d[MAXN * 3], ans[MAXN * 3];
-inline int query(int x, int len) {
-  return lower_bound(d + 1, d + 1 + len, x) - d;
-}
+int C, L;
+pair<int, int> cow[MAXN];
+map<int, int> spfs;
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  cin >> n;
-  int all = 0;
-  for (int i = 1; i <= n; i++) {
-    cin >> a[i];
-    d[++all] = a[i];
+  cin >> C >> L;
+  for (int i = 1; i <= C; i++) {
+    cin >> cow[i].fi >> cow[i].se;
   }
-  cin >> m;
-  for (int i = 1; i <= m; i++) {
-    cin >> b[i];
-    d[++all] = b[i];
+  for (int a, b, i = 1; i <= L; i++) {
+    cin >> a >> b;
+    spfs[a] += b;
   }
-  for (int i = 1; i <= m; i++) {
-    cin >> c[i];
-    d[++all] = c[i];
-  }
-  sort(d + 1, d + 1 + all);
-  int len = unique(d + 1, d + 1 + m + m + n) - d - 1;
-  int a1, a2, a0;
-  for (int i = 1; i <= n; i++) ans[query(a[i], len)]++;
-  a1 = a2 = a0 = 0;
-  for (int i = 1; i <= m; i++) {
-    int x = ans[query(b[i], len)], y = ans[query(c[i], len)];
-    if (x > a1 || (x == a1 && y > a2)) {
-      a0 = i, a1 = x, a2 = y;
+  sort(cow + 1, cow + 1 + C, greater<pair<int, int>>());
+  int res = 0;
+  spfs[0] = spfs[1001] = C;
+  for (int i = 1; i <= C; i++) {
+    auto now = spfs.upper_bound(cow[i].se);
+    now--;
+    if (now->first >= cow[i].fi) {
+      res++;
+      if (--now->second == 0) {
+        spfs.erase(now);
+      }
     }
   }
-  if (a0 == 0) {
-    printf("%d\n", 1);
-  } else {
-    printf("%d\n", a0);
-  }
+  cout << res;
 }
 
 signed main() {
