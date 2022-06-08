@@ -41,50 +41,35 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-ll n, k, v[20], cnt;
-map<int, bool> mp;
-bool ans = false;
-void dfs(int all) {
-  //   cout << all << endl;
-  if (ans) return;
-  if (all == 0) {
-    ans = true;
-    return;
-  }
-  for (int i = 1; i <= cnt; i++) {
-    if (all - v[i] < 0) break;
-    dfs(all - v[i]);
-  }
-}
+int n;
+int ca1, cb1, ca0, cb0, t;
 inline void work(signed CASE = 1, bool FINAL_CASE = false) {
-  cin >> k >> n;
-  if (n % 9 != 0)
-    ans = false;
-  else {
-    mmst0(v);
-    cnt = 0;
-    for (ll i = 1; i * k <= 20; i++) {
-      v[++cnt] = pow(10, i * k) - 1;
-      if (v[cnt] > n) {
-        v[cnt--] = 0;
-        break;
-      }
-    }
-    sort(v + 1, v + 1 + cnt, greater<int>());
-    ans = false;
-    dfs(n);
+  cin >> n;
+  for (int i = 1; i <= n; i++) {
+    scanf("%1d", &t);
+    if (t)
+      ca1++;
+    else
+      ca0++;
   }
-  if (ans)
-    cout << "aya";
-  else
-    cout << "baka";
-  puts("");
+  for (int i = 1; i <= n; i++) {
+    scanf("%1d", &t);
+    if (t)
+      cb1++;
+    else
+      cb0++;
+  }
+  cout << min(abs(ca1 - cb1), abs(ca0 - cb0));
 }
 
 signed main() {
-  int T;
-  cin >> T;
-  while (T--) {
-    work();
+  // ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+  // //freopen(".in", "r", stdin);//freopen(".out", "w", stdout);
+  signed T = 1;  //(signed)read();//scanf("%d",&T);//cin>>T;
+  for (signed CASE = 1; CASE <= T; CASE++) {  //
+    // printf("Case #%d: ",CASE); //printf("Case %d: ",CASE); //printf("Case
+    // #%d: \n",CASE); //printf("Case %d: \n",CASE); while(cin>>n) work(n);
+    work(CASE, CASE == T);
   }
+  return 0;
 }

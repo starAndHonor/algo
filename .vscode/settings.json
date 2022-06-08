@@ -87,5 +87,7 @@
         "valarray": "cpp",
         "variant": "cpp"
     },
-    "powermode.enabled": true
+    "powermode.enabled": true,
+    "zhihu.enableMermaidToPng": true,
+    "zhihu.mermaidTheme": "dark" // 支持设置 mermaid 图片主题，默认值是 "default"
 }

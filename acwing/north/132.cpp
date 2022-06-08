@@ -41,16 +41,51 @@ inline int read() {
 //  ch=nc();while (ch>='0'&&ch<='9') x=(x<<3)+(x<<1)+ch-48,ch=nc();} //
 //  根据参数个数自动选择 void prt(int
 //  x){if(x<0){putchar('-');x=-x;}if(x>9)prt(x/10);putchar((char)(x%10+'0'));}
-inline void work(signed CASE = 1, bool FINAL_CASE = false) {}
+int n, fa[1000010];
+queue<int> q[1006];
+inline void enqueue(int x) {
+  if (q[fa[x]].empty()) q[0].push(fa[x]);
+  q[fa[x]].push(x);
+}
+inline void dequeue() {
+  cout << q[q[0].front()].front() << endl;
+  q[q[0].front()].pop();
+  if (q[q[0].front()].empty()) q[0].pop();
+}
+char s[30];
+inline void work(signed CASE = 1, bool FINAL_CASE = false) {
+  q[0] = queue<int>();
+
+  int all, x;
+  for (int i = 1; i <= n; i++) {
+    cin >> all;
+    for (int j = 1; j <= all; j++) {
+      cin >> x;
+      fa[x] = i;
+    }
+    q[i] = queue<int>();
+  }
+  while (scanf("%s", s) && s[0] != 'S') {
+    if (s[0] == 'E') {
+      cin >> x;
+      enqueue(x);
+    } else {
+      dequeue();
+    }
+  }
+}
 
 signed main() {
   // ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
   // //freopen(".in", "r", stdin);//freopen(".out", "w", stdout);
   signed T = 1;  //(signed)read();//scanf("%d",&T);//cin>>T;
-  for (signed CASE = 1; CASE <= T; CASE++) {  //
-    // printf("Case #%d: ",CASE); //printf("Case %d: ",CASE); //printf("Case
+  int CASE = 1;
+  while (cin >> n && n) {
+    printf("Scenario #%d\n",
+           CASE++);  // printf("Case %d: ",CASE); //printf("Case
     // #%d: \n",CASE); //printf("Case %d: \n",CASE); while(cin>>n) work(n);
-    work(CASE, CASE == T);
+    work(0, 0);
+    cout << endl;
   }
   return 0;
 }
