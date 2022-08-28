@@ -1,0 +1,1 @@
+{"name":"Local: 回文串","url":"f:\\code\\code\\集训\\回文串.cpp","tests":[{"id":1659414442603,"input":"ababab\n3\n2 1 2\n1 2 a\n2 1 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"f:\\code\\code\\集训\\回文串.cpp","group":"local","local":true}
